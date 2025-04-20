@@ -1,7 +1,7 @@
 // screens/LoginScreen.js
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { View, TextInput, Button, Text, StyleSheet, Alert } from "react-native";
+import { View, TextInput, Text, StyleSheet, Alert } from "react-native";
 import { auth } from "@/firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -18,16 +18,19 @@ const LoginScreen = () => {
   const handleLogin = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      Alert.alert("¡Bienvenido!", "Has iniciado sesión correctamente");
+      Alert.alert("Welcome back!", "You have successfully logged in.");
       router.replace("/(Screens)/OnBoardingScreen");
     } catch (error) {
-      Alert.alert("Error al iniciar sesión", error.message);
+      Alert.alert(
+        "Login failed",
+        "Please check your credentials and try again."
+      );
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Iniciar Sesión</Text>
+      <Text style={styles.title}>Log In</Text>
       <View style={styles.formBox}>
         <View style={styles.inputWithIcon}>
           <Ionicons
@@ -37,7 +40,7 @@ const LoginScreen = () => {
             style={styles.icon}
           />
           <TextInput
-            placeholder="Correo electrónico"
+            placeholder="Email"
             style={styles.input}
             value={email}
             onChangeText={setEmail}
@@ -55,7 +58,7 @@ const LoginScreen = () => {
             style={styles.icon}
           />
           <TextInput
-            placeholder="Contraseña"
+            placeholder="Password"
             style={styles.passwordInput}
             secureTextEntry={!showPassword}
             value={password}
@@ -75,16 +78,16 @@ const LoginScreen = () => {
         </View>
 
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Iniciar Sesión</Text>
+          <Text style={styles.buttonText}>Log In</Text>
         </TouchableOpacity>
         <Text style={styles.registerText}>
-          ¿No tienes cuenta?
+          Don't have an account?
           <Text
             style={styles.link}
             onPress={() => navigation.navigate("RegisterScreen")}
           >
             {" "}
-            Regístrate aquí
+            Register here
           </Text>
         </Text>
       </View>

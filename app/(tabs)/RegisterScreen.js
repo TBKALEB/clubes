@@ -4,7 +4,6 @@ import { useNavigation } from "@react-navigation/native";
 import {
   View,
   TextInput,
-  Button,
   Text,
   StyleSheet,
   Alert,
@@ -53,12 +52,12 @@ const RegisterScreen = () => {
       });
 
       Alert.alert(
-        "¡Cuenta creada!",
-        "Tu usuario ha sido registrado correctamente"
+        "Account created",
+        "You have successfully registered. Please log in."
       );
       navigation.navigate("LoginScreen");
     } catch (error) {
-      Alert.alert("Error al registrarse", error.message);
+      Alert.alert("Error", "Failed to create account. Please try again.");
     }
   };
 
@@ -70,7 +69,7 @@ const RegisterScreen = () => {
       resizeMode="cover"
     >
       <View style={styles.container}>
-        <Text style={styles.title}>Crear Cuenta</Text>
+        <Text style={styles.title}>Create Account</Text>
         <View style={styles.formBox}>
           <View style={styles.inputWithIcon}>
             <Ionicons
@@ -80,7 +79,7 @@ const RegisterScreen = () => {
               style={styles.icon}
             />
             <TextInput
-              placeholder="Nombre"
+              placeholder="Name"
               style={styles.input}
               value={name}
               onChangeText={setName}
@@ -96,7 +95,7 @@ const RegisterScreen = () => {
               style={styles.icon}
             />
             <TextInput
-              placeholder="Apellido"
+              placeholder="Last Name"
               style={styles.input}
               value={lastName}
               onChangeText={setLastName}
@@ -112,7 +111,7 @@ const RegisterScreen = () => {
               style={styles.icon}
             />
             <TextInput
-              placeholder="Edad"
+              placeholder="Age"
               style={styles.input}
               value={age}
               onChangeText={setAge}
@@ -129,7 +128,7 @@ const RegisterScreen = () => {
               style={styles.icon}
             />
             <TextInput
-              placeholder="Correo electrónico"
+              placeholder="Email"
               style={styles.input}
               value={email}
               onChangeText={setEmail}
@@ -146,7 +145,7 @@ const RegisterScreen = () => {
               style={styles.icon}
             />
             <TextInput
-              placeholder="Contraseña"
+              placeholder="Password"
               style={styles.passwordInput}
               secureTextEntry={!showPassword}
               value={password}
@@ -172,7 +171,7 @@ const RegisterScreen = () => {
               style={styles.icon}
             />
             <TextInput
-              placeholder="Confirmar contraseña"
+              placeholder="Confirm Password"
               style={styles.passwordInput}
               secureTextEntry={!showConfirmPassword}
               value={confirmPassword}
@@ -192,17 +191,17 @@ const RegisterScreen = () => {
           </View>
 
           <TouchableOpacity style={styles.button} onPress={handleRegister}>
-            <Text style={styles.buttonText}>Crear cuenta</Text>
+            <Text style={styles.buttonText}>Create Account</Text>
           </TouchableOpacity>
 
           <Text style={styles.loginText}>
-            ¿Ya tienes cuenta?
+            You already have an account?
             <Text
               style={styles.link}
               onPress={() => navigation.navigate("LoginScreen")}
             >
               {" "}
-              Inicia sesión aquí
+              Log in here
             </Text>
           </Text>
         </View>
