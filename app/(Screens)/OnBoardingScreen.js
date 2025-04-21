@@ -40,7 +40,7 @@ const OnBoardingScreen = () => {
   const [itemsBranch, setitemsBranch] = useState([]);
   useEffect(() => {
     if (!valueSubject) return;
-    if (valueSubject === "mathematics") {
+    if (valueSubject.value === "mathematics") {
       setitemsBranch([
         { label: "Algebra", value: "algebra" },
         { label: "Geometry", value: "geometria" },
@@ -49,7 +49,7 @@ const OnBoardingScreen = () => {
         { label: "Trigonometry", value: "trigonometria" },
         { label: "Arithmetic", value: "aritmetica" },
       ]);
-    } else if (valueSubject === "sciences") {
+    } else if (valueSubject.value === "sciences") {
       setitemsBranch([
         { label: "Biology", value: "biologia" },
         { label: "Chemistry", value: "quimica" },
@@ -68,7 +68,7 @@ const OnBoardingScreen = () => {
         { label: "Neuroscience", value: "neurociencia" },
         { label: "Geography", value: "geografia" },
       ]);
-    } else if (valueSubject === "engineering") {
+    } else if (valueSubject.value === "engineering") {
       setitemsBranch([
         { label: "Civil Engineering", value: "ingenieria_civil" },
         { label: "Electronic Engineering", value: "ingenieria_electronica" },
@@ -77,7 +77,7 @@ const OnBoardingScreen = () => {
         { label: "Industrial Engineering", value: "ingenieria_industrial" },
         { label: "Chemical Engineering", value: "ingenieria_quimica" },
       ]);
-    } else if (valueSubject === "history") {
+    } else if (valueSubject.value === "history") {
       setitemsBranch([
         { label: "World History", value: "historia_universal" },
         { label: "American History", value: "historia_america" },
@@ -88,7 +88,7 @@ const OnBoardingScreen = () => {
         { label: "Contemporary History", value: "historia_contemporanea" },
         { label: "Political History", value: "historia_politica" },
       ]);
-    } else if (valueSubject === "psychology") {
+    } else if (valueSubject.value === "psychology") {
       setitemsBranch([
         { label: "Cognitive Psychology", value: "psicologia_cognitiva" },
         { label: "Social Psychology", value: "psicologia_social" },
@@ -97,7 +97,7 @@ const OnBoardingScreen = () => {
         { label: "Neuropsychology", value: "neuropsicologia" },
         { label: "Psychometrics", value: "psicometria" },
       ]);
-    } else if (valueSubject === "philosophy") {
+    } else if (valueSubject.value === "philosophy") {
       setitemsBranch([
         { label: "Ancient Philosophy", value: "filosofia_antigua" },
         { label: "Medieval Philosophy", value: "filosofia_medieval" },
@@ -108,7 +108,7 @@ const OnBoardingScreen = () => {
         { label: "Epistemology", value: "epistemologia" },
         { label: "Political Philosophy", value: "filosofia_politica" },
       ]);
-    } else if (valueSubject === "art") {
+    } else if (valueSubject.value === "art") {
       setitemsBranch([
         { label: "Painting", value: "pintura" },
         { label: "Sculpture", value: "escultura" },
@@ -118,14 +118,14 @@ const OnBoardingScreen = () => {
         { label: "Plastic Arts", value: "artes_plasticas" },
         { label: "Design", value: "diseno" },
       ]);
-    } else if (valueSubject === "music") {
+    } else if (valueSubject.value === "music") {
       setitemsBranch([
         { label: "Music Theory", value: "teoria_musical" },
         { label: "Composition", value: "composicion" },
         { label: "Music Production", value: "produccion_musical" },
         { label: "Acoustics", value: "acustica" },
       ]);
-    } else if (valueSubject === "cinema") {
+    } else if (valueSubject.value === "cinema") {
       setitemsBranch([
         { label: "Directing", value: "direccion" },
         { label: "Production", value: "produccion" },
@@ -134,7 +134,7 @@ const OnBoardingScreen = () => {
         { label: "Animation", value: "animacion" },
         { label: "Special Effects", value: "efectos_especiales" },
       ]);
-    } else if (valueSubject === "programming") {
+    } else if (valueSubject.value === "programming") {
       setitemsBranch([
         { label: "Web Development", value: "desarrollo_web" },
         { label: "Mobile Development", value: "desarrollo_movil" },
@@ -151,7 +151,7 @@ const OnBoardingScreen = () => {
         { label: "Augmented Reality", value: "realidad_aumentada" },
         { label: "Virtual Reality", value: "realidad_virtual" },
       ]);
-    } else if (valueSubject === "blockchain") {
+    } else if (valueSubject.value === "blockchain") {
       setitemsBranch([
         {
           label: "Smart Contracts Development",
@@ -160,7 +160,7 @@ const OnBoardingScreen = () => {
         { label: "Cryptos", value: "criptomonedas" },
         { label: "NFTs", value: "nfts" },
       ]);
-    } else if (valueSubject === "entrepreneurship") {
+    } else if (valueSubject.value === "entrepreneurship") {
       setitemsBranch([
         { label: "Business Plan", value: "plan_negocios" },
         { label: "Digital Marketing", value: "marketing_digital" },
@@ -170,14 +170,14 @@ const OnBoardingScreen = () => {
         },
         { label: "Startups", value: "startups" },
       ]);
-    } else if (valueSubject === "economics") {
+    } else if (valueSubject.value === "economics") {
       setitemsBranch([
         { label: "Microeconomics", value: "microeconomia" },
         { label: "Macroeconomics", value: "macroeconomia" },
         { label: "International Economics", value: "economia_internacional" },
         { label: "Political Economy", value: "economia_politica" },
       ]);
-    } else if (valueSubject === "languages") {
+    } else if (valueSubject.value === "languages") {
       setitemsBranch([
         { label: "Dialect", value: "dialecto" },
         { label: "Grammar", value: "gramatica" },
@@ -185,7 +185,7 @@ const OnBoardingScreen = () => {
         { label: "Translation", value: "traduccion" },
         { label: "Interpretation", value: "interpretacion" },
       ]);
-    } else if (valueSubject === "sports") {
+    } else if (valueSubject.value === "sports") {
       setitemsBranch([
         { label: "Team Sports", value: "deportes_equipo" },
         { label: "Individual Sports", value: "deportes_individuales" },
@@ -257,7 +257,7 @@ const OnBoardingScreen = () => {
             size={24}
             color="gray"
           />
-          <DropDownPicker
+          <CustomDropdown
             placeholder="Subject"
             open={openSubject}
             value={valueSubject}
@@ -265,6 +265,85 @@ const OnBoardingScreen = () => {
             setOpen={setOpenSubject}
             setValue={setValueSubject}
             setItems={setItemsSubject}
+            placeholderStyle={{
+              color: "#fff",
+              fontSize: 14,
+              lineHeight: 25,
+            }}
+            dropDownContainerStyle={{
+              backgroundColor: "#000",
+              borderWidth: 1,
+              borderColor: "#ccc",
+              borderRadius: 8,
+              borderTopWidth: 0,
+              width: "60%",
+              justifyContent: "center",
+              padding: 20,
+              elevation: 5,
+            }}
+            flatListStyle={{
+              backgroundColor: "#000",
+              maxHeight: 200,
+            }}
+            modalStyle={{
+              justifyContent: "center",
+              alignItems: "center",
+              flex: 1,
+            }}
+            itemTextStyle={{ color: "#ffffff", fontSize: 14 }}
+            containerStyle={{
+              backgroundColor: "transparent",
+              width: "95%",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 8,
+              borderColor: "transparent",
+
+              alignSelf: "center",
+              ...Platform.select({
+                android: { height: 20, paddingVertical: 12 },
+              }),
+            }}
+            buttonStyle={{
+              backgroundColor: "transparent",
+              borderRadius: 8,
+              width: "100%",
+              height: 50,
+              borderColor: "transparent",
+              flexDirection: "row",
+              paddingHorizontal: 15,
+              paddingVertical: 12,
+              alignSelf: "center",
+              justifyContent: "space-between",
+            }}
+            itemStyle={{
+              padding: 10,
+            }}
+            flatListContentStyle={{
+              backgroundColor: "transparent",
+            }}
+          />
+        </View>
+        <View
+          style={[
+            styles.inputWithIcon,
+            { zIndex: 8, ...Platform.select({ android: { padding: 14 } }) },
+          ]}
+        >
+          <Ionicons
+            name="extension-puzzle-outline"
+            style={styles.icon}
+            size={24}
+            color="gray"
+          />
+          <CustomDropdown
+            placeholder="Branch"
+            open={openBranch}
+            value={valueBranch}
+            items={itemsBranch}
+            setOpen={setOpenBranch}
+            setValue={setValueBranch}
+            setItems={setitemsBranch}
             placeholderStyle={{
               color: "#fff",
               fontSize: 14,
@@ -321,46 +400,6 @@ const OnBoardingScreen = () => {
               paddingVertical: 12,
               alignSelf: "center",
               justifyContent: "space-between",
-            }}
-          />
-        </View>
-        <View
-          style={[
-            styles.inputWithIcon,
-            { zIndex: 8, ...Platform.select({ android: { padding: 14 } }) },
-          ]}
-        >
-          <Ionicons
-            name="extension-puzzle-outline"
-            style={styles.icon}
-            size={24}
-            color="gray"
-          />
-          <DropDownPicker
-            placeholder="Branch"
-            open={openBranch}
-            value={valueBranch}
-            items={itemsBranch}
-            setOpen={setOpenBranch}
-            setValue={setValueBranch}
-            setItems={setitemsBranch}
-            placeholderStyle={{ color: "#ffffff" }}
-            style={{
-              backgroundColor: "transparent",
-              width: "95%",
-              borderColor: "transparent",
-              flex: 1,
-            }}
-            dropDownContainerStyle={{
-              backgroundColor: "#000",
-              borderColor: "#ccc",
-              borderRadius: 8,
-              borderTopColor: "transparent",
-              width: "96%",
-            }}
-            textStyle={{ color: "#ffffff" }}
-            arrowIconStyle={{
-              tintColor: "#ffffff",
             }}
           />
         </View>
