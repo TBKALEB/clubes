@@ -1,9 +1,16 @@
 import { Ionicons } from "@expo/vector-icons";
-import DropDownPicker from "react-native-dropdown-picker";
 import { Platform } from "react-native";
 import { View, Text, StyleSheet } from "react-native";
 import { useState, useEffect } from "react";
 import CustomDropdown from "../../components/dropdown";
+import {
+  GestureHandlerRootView,
+  TouchableOpacity,
+} from "react-native-gesture-handler";
+import { db } from "@/firebaseConfig";
+import { setDoc, doc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import DropDownPicker from "react-native-dropdown-picker";
 
 const OnBoardingScreen = () => {
   const [openEducation, setOpenEducation] = useState(false);
@@ -56,15 +63,9 @@ const OnBoardingScreen = () => {
         { label: "Physics", value: "fisica" },
         { label: "Geology", value: "geologia" },
         { label: "Astronomy", value: "astronomia" },
-        { label: "Ecology", value: "ecologia" },
-        { label: "Botany", value: "botanica" },
-        { label: "Zoology", value: "zoologia" },
-        { label: "Genetics", value: "genetica" },
-        { label: "Microbiology", value: "microbiologia" },
         { label: "Anatomy", value: "anatomia" },
         { label: "Physiology", value: "fisiologia" },
-        { label: "Biochemistry", value: "bioquimica" },
-        { label: "Biotechnology", value: "biotecnologia" },
+
         { label: "Neuroscience", value: "neurociencia" },
         { label: "Geography", value: "geografia" },
       ]);
@@ -200,251 +201,363 @@ const OnBoardingScreen = () => {
       setitemsBranch([]);
     }
   }, [valueSubject]);
+  const [itemsFocus, setItemsFocus] = useState([]);
+  useEffect(() => {
+    if (!valueBranch) return;
+    if (valueBranch.value === "algebra") {
+      setItemsFocus([
+        { label: "Linear Algebra", value: "algebra_lineal" },
+        { label: "Abstract Algebra", value: "algebra_abstracta" },
+        { label: "Boolean Algebra", value: "algebra_booleana" },
+        { label: "Matrix Algebra", value: "algebra_matrices" },
+      ]);
+    } else if (valueBranch.value === "geometria") {
+      setItemsFocus([
+        { label: "Analytic Geometry", value: "geometria_analitica" },
+        { label: "Differential Geometry", value: "geometria_diferencial" },
+        { label: "Projective Geometry", value: "geometria_proyectiva" },
+        { label: "Topology", value: "topologia" },
+      ]);
+    } else if (valueBranch.value === "calculo") {
+      setItemsFocus([
+        { label: "Differential Calculus", value: "calculo_diferencial" },
+        { label: "Integral Calculus", value: "calculo_integral" },
+        { label: "Multivariable Calculus", value: "calculo_multivariable" },
+        { label: "Vector Calculus", value: "calculo_vectorial" },
+      ]);
+    } else if (valueBranch.value === "estadistica") {
+      setItemsFocus([
+        { label: "Descriptive Statistics", value: "estadistica_descriptiva" },
+        { label: "Inferential Statistics", value: "estadistica_inferencial" },
+        { label: "Bayesian Statistics", value: "estadistica_bayesiana" },
+      ]);
+    } else if (valueBranch.value === "trigonometria") {
+      setItemsFocus([
+        {
+          label: "Trigonometric Functions",
+          value: "funciones_trigonometricas",
+        },
+        {
+          label: "Inverse Trigonometric Functions",
+          value: "funciones_inversas",
+        },
+        {
+          label: "Trigonometric Identities",
+          value: "identidades_trigonometricas",
+        },
+        {
+          label: "Applications of Trigonometry",
+          value: "aplicaciones_trigonometria",
+        },
+      ]);
+    } else if (valueBranch.value === "aritmetica") {
+      setItemsFocus([
+        { label: "Basic Arithmetic", value: "aritmetica_basica" },
+        { label: "Advanced Arithmetic", value: "aritmetica_avanzada" },
+        { label: "Arithmetic Operations", value: "operaciones_aritmeticas" },
+        {
+          label: "Applications of Arithmetic",
+          value: "aplicaciones_aritmetica",
+        },
+      ]);
+    } else if (valueBranch.value === "biologia") {
+      setItemsFocus([
+        { label: "Cell Biology", value: "biologia_celular" },
+        { label: "Molecular Biology", value: "biologia_molecular" },
+        { label: "Genetics", value: "genetica" },
+        { label: "Evolutionary Biology", value: "biologia_evolutiva" },
+        { label: "Ecology", value: "ecologia" },
+        { label: "Microbiology", value: "microbiologia" },
+        { label: "Biotechnology", value: "biotecnologia" },
+      ]);
+    } else if (valueBranch.value === "quimica") {
+      setItemsFocus([
+        { label: "Organic Chemistry", value: "quimica_organica" },
+        { label: "Inorganic Chemistry", value: "quimica_inorganica" },
+        { label: "Biochemistry", value: "bioquimica" },
+        { label: "Industrial Chemistry", value: "quimica_industrial" },
+        { label: "Pharmaceutical Chemistry", value: "quimica_farmaceutica" },
+      ]);
+    } else if (valueBranch.value === "fisica") {
+      setItemsFocus([
+        { label: "Classical Mechanics", value: "mecanica_clasica" },
+        { label: "Thermodynamics", value: "termodinamica" },
+        { label: "Electromagnetism", value: "electromagnetismo" },
+        { label: "Quantum Mechanics", value: "mecanica_cuantica" },
+        { label: "Relativity", value: "relatividad" },
+      ]);
+    } else if (valueBranch.value === "geologia") {
+      setItemsFocus([
+        { label: "Mineralogy", value: "mineralogia" },
+        { label: "Petrology", value: "petrologia" },
+        { label: "Paleontology", value: "paleontologia" },
+        { label: "Geophysics", value: "geofisica" },
+        { label: "Stratigraphy", value: "estratigrafia" },
+      ]);
+    } else if (valueBranch.value === "astronomia") {
+      setItemsFocus([
+        { label: "Astrophysics", value: "astrofisica" },
+        { label: "Cosmology", value: "cosmologia" },
+        { label: "Planetary Science", value: "ciencia_planetaria" },
+        { label: "Stellar Astronomy", value: "astronomia_estelar" },
+        { label: "Galactic Astronomy", value: "astronomia_galactica" },
+      ]);
+    } else if (valueBranch.value === "anatomia") {
+      setItemsFocus([
+        { label: "Human Anatomy", value: "anatomia_humana" },
+        { label: "Comparative Anatomy", value: "anatomia_comparada" },
+        { label: "Neuroanatomy", value: "neuroanatomia" },
+        { label: "Gross Anatomy", value: "anatomia_macroscópica" },
+        { label: "Microscopic Anatomy", value: "anatomia_microscopica" },
+      ]);
+    } else if (valueBranch.value === "fisiologia") {
+      setItemsFocus([
+        { label: "Human Physiology", value: "fisiologia_humana" },
+        { label: "Plant Physiology", value: "fisiologia_vegetal" },
+        { label: "Neurophysiology", value: "neurofisiologia" },
+        { label: "Endocrinology", value: "endocrinologia" },
+        {
+          label: "Cardiovascular Physiology",
+          value: "fisiologia_cardiovascular",
+        },
+      ]);
+    } else if (valueBranch.value === "neurociencia") {
+      setItemsFocus([
+        { label: "Cognitive Neuroscience", value: "neurociencia_cognitiva" },
+        { label: "Clinical Neuroscience", value: "neurociencia_clinica" },
+        { label: "Neurobiology", value: "neurobiologia" },
+        { label: "Neurophysiology", value: "neurofisiologia" },
+        { label: "Neurochemistry", value: "neuroquimica" },
+      ]);
+    } else if (valueBranch.value === "geografia") {
+      setItemsFocus([
+        { label: "Physical Geography", value: "geografia_fisica" },
+        { label: "Human Geography", value: "geografia_humana" },
+        {
+          label: "Geographical Information Systems (GIS)",
+          value: "sistemas_de_informacion_geografica",
+        },
+        { label: "Climatology", value: "climatologia" },
+        { label: "Cartography", value: "cartografia" },
+      ]);
+    }
+  }, [valueBranch]);
+  const handleBoarding = async () => {
+    try {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user) {
+        console.error("No user is currently signed in.");
+        return;
+      }
+      const userId = user.uid;
+      await setDoc(
+        doc(db, "usuarios", userId),
+        {
+          education: valueEducation.label,
+          subject: valueSubject.label,
+          branch: valueBranch.label,
+          focus: valueFocus.label,
+        },
+        { merge: true }
+      );
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Welcome to the App</Text>
-      <View style={styles.formBox}>
-        <View
-          style={[
-            styles.inputWithIcon,
-            { zIndex: 10, ...Platform.select({ android: { padding: 14 } }) },
-          ]}
-        >
-          <Ionicons
-            name="school-outline"
-            style={styles.icon}
-            size={24}
-            color="gray"
-          />
-          <DropDownPicker
-            open={openEducation}
-            value={valueEducation}
-            items={itemsEducation}
-            setOpen={setOpenEducation}
-            setValue={setValueEducation}
-            setItems={setItemsEducation}
-            placeholder="Education Level"
-            placeholderStyle={{ color: "#ffffff" }}
-            style={{
-              backgroundColor: "transparent",
-              width: "95%",
-              borderColor: "transparent",
-              flex: 1,
-            }}
-            dropDownContainerStyle={{
-              backgroundColor: "#000",
-              borderColor: "#ccc",
-              borderRadius: 8,
-              borderTopColor: "transparent",
-              width: "96%",
-            }}
-            textStyle={{ color: "#ffffff" }}
-            arrowIconStyle={{
-              tintColor: "#ffffff",
-            }}
-          />
-        </View>
-        <View
-          style={[
-            styles.inputWithIcon,
-            { zIndex: 9, ...Platform.select({ android: { padding: 14 } }) },
-          ]}
-        >
-          <Ionicons
-            name="book-outline"
-            style={styles.icon}
-            size={24}
-            color="gray"
-          />
-          <CustomDropdown
-            placeholder="Subject"
-            open={openSubject}
-            value={valueSubject}
-            items={itemsSubject}
-            setOpen={setOpenSubject}
-            setValue={setValueSubject}
-            setItems={setItemsSubject}
-            placeholderStyle={{
-              color: "#fff",
-              fontSize: 14,
-              lineHeight: 25,
-            }}
-            dropDownContainerStyle={{
-              backgroundColor: "#000",
-              borderWidth: 1,
-              borderColor: "#ccc",
-              borderRadius: 8,
-              borderTopWidth: 0,
-              width: "60%",
-              justifyContent: "center",
-              padding: 20,
-              elevation: 5,
-            }}
-            flatListStyle={{
-              backgroundColor: "#000",
-              maxHeight: 200,
-            }}
-            modalStyle={{
-              justifyContent: "center",
-              alignItems: "center",
-              flex: 1,
-            }}
-            itemTextStyle={{ color: "#ffffff", fontSize: 14 }}
-            containerStyle={{
-              backgroundColor: "transparent",
-              width: "95%",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: 8,
-              borderColor: "transparent",
-
-              alignSelf: "center",
-              ...Platform.select({
-                android: { height: 20, paddingVertical: 12 },
-              }),
-            }}
-            buttonStyle={{
-              backgroundColor: "transparent",
-              borderRadius: 8,
-              width: "100%",
-              height: 50,
-              borderColor: "transparent",
-              flexDirection: "row",
-              paddingHorizontal: 15,
-              paddingVertical: 12,
-              alignSelf: "center",
-              justifyContent: "space-between",
-            }}
-            itemStyle={{
-              padding: 10,
-            }}
-            flatListContentStyle={{
-              backgroundColor: "transparent",
-            }}
-          />
-        </View>
-        <View
-          style={[
-            styles.inputWithIcon,
-            { zIndex: 8, ...Platform.select({ android: { padding: 14 } }) },
-          ]}
-        >
-          <Ionicons
-            name="extension-puzzle-outline"
-            style={styles.icon}
-            size={24}
-            color="gray"
-          />
-          <CustomDropdown
-            placeholder="Branch"
-            open={openBranch}
-            value={valueBranch}
-            items={itemsBranch}
-            setOpen={setOpenBranch}
-            setValue={setValueBranch}
-            setItems={setitemsBranch}
-            placeholderStyle={{
-              color: "#fff",
-              fontSize: 14,
-              lineHeight: 25,
-            }}
-            style={{
-              backgroundColor: "transparent",
-              borderColor: "transparent",
-            }}
-            textStyle={{ color: "#ffffff" }}
-            dropDownContainerStyle={{
-              backgroundColor: "#000",
-              borderWidth: 1,
-              borderColor: "#ccc",
-              borderRadius: 8,
-              borderTopWidth: 0,
-              borderTopColor: "transparent",
-              width: "60%",
-              justifyContent: "center",
-              padding: 20,
-              elevation: 5,
-            }}
-            flatListStyle={{
-              backgroundColor: "#000",
-              maxHeight: 200,
-            }}
-            modalStyle={{
-              justifyContent: "center",
-              alignItems: "center",
-              flex: 1,
-            }}
-            itemTextStyle={{ color: "#ffffff", fontSize: 14 }}
-            containerStyle={{
-              backgroundColor: "transparent",
-              width: "95%",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: 8,
-              borderColor: "transparent",
-              flatListCOntentStyle: {},
-              alignSelf: "center",
-              ...Platform.select({
-                android: { height: 20, paddingVertical: 12 },
-              }),
-            }}
-            buttonStyle={{
-              backgroundColor: "transparent",
-              borderRadius: 8,
-              width: "100%",
-              height: 50,
-              borderColor: "transparent",
-              flexDirection: "row",
-              paddingHorizontal: 15,
-              paddingVertical: 12,
-              alignSelf: "center",
-              justifyContent: "space-between",
-            }}
-          />
-        </View>
-        <View
-          style={[
-            styles.inputWithIcon,
-            { zIndex: 7, ...Platform.select({ android: { padding: 14 } }) },
-          ]}
-        >
-          <Ionicons
-            name="search-outline"
-            style={styles.icon}
-            size={24}
-            color="gray"
-          />
-          <DropDownPicker
-            placeholder="Focus"
-            open={openFocus}
-            value={valueFocus}
-            items={itemsBranch}
-            setOpen={setOpenFocus}
-            setValue={setValueFocus}
-            setItems={setitemsBranch}
-            placeholderStyle={{ color: "#ffffff" }}
-            style={{
-              backgroundColor: "transparent",
-              width: "95%",
-              borderColor: "transparent",
-              flex: 1,
-            }}
-            dropDownContainerStyle={{
-              backgroundColor: "#000",
-              borderColor: "#ccc",
-              borderRadius: 8,
-              borderTopColor: "transparent",
-              width: "96%",
-            }}
-            textStyle={{ color: "#ffffff" }}
-            arrowIconStyle={{
-              tintColor: "#ffffff",
-            }}
-          />
+    <GestureHandlerRootView>
+      <View style={styles.container}>
+        <Text style={styles.title}>Welcome to the App</Text>
+        <View style={styles.formBox}>
+          <View
+            style={[
+              styles.inputWithIcon,
+              {
+                zIndex: 10,
+                position: "relative",
+                ...Platform.select({ android: { padding: 14 } }),
+              },
+            ]}
+          >
+            <Ionicons
+              name="school-outline"
+              style={styles.icon}
+              size={24}
+              color="gray"
+            />
+            <CustomDropdown
+              open={openEducation}
+              value={valueEducation}
+              items={itemsEducation}
+              setOpen={setOpenEducation}
+              setValue={setValueEducation}
+              setItems={setItemsEducation}
+              placeholder="Education Level"
+              placeholderStyle={{
+                color: "#fff",
+                fontSize: 14,
+                lineHeight: 25,
+              }}
+              dropDownContainerStyle={[styles.dropDownContainer]}
+              flatListStyle={[
+                styles.flatListDropDown,
+                {
+                  ...Platform.select({
+                    web: { top: -5 },
+                    android: { marginTop: -36 },
+                  }),
+                },
+              ]}
+              modalStyle={styles.modalDropDown}
+              itemTextStyle={{ color: "#ffffff", fontSize: 14 }}
+              containerStyle={styles.containerButtonDropDown}
+              buttonStyle={styles.buttonDropDown}
+              itemStyle={{
+                padding: 10,
+              }}
+              flatListContentStyle={styles.contentFlatList}
+            />
+          </View>
+          <View
+            style={[
+              styles.inputWithIcon,
+              { zIndex: 9, ...Platform.select({ android: { padding: 14 } }) },
+            ]}
+          >
+            <Ionicons
+              name="book-outline"
+              style={styles.icon}
+              size={24}
+              color="gray"
+            />
+            <CustomDropdown
+              placeholder="Subject"
+              open={openSubject}
+              value={valueSubject}
+              items={itemsSubject}
+              setOpen={setOpenSubject}
+              setValue={setValueSubject}
+              setItems={setItemsSubject}
+              placeholderStyle={{
+                color: "#fff",
+                fontSize: 14,
+                lineHeight: 25,
+              }}
+              dropDownContainerStyle={styles.dropDownContainer}
+              flatListStyle={[
+                styles.flatListDropDown,
+                {
+                  ...Platform.select({
+                    web: { marginTop: 161 },
+                    android: { marginTop: 129 },
+                  }),
+                },
+              ]}
+              modalStyle={styles.modalDropDown}
+              itemTextStyle={{ color: "#ffffff", fontSize: 14 }}
+              containerStyle={styles.containerButtonDropDown}
+              buttonStyle={styles.buttonDropDown}
+              itemStyle={{
+                padding: 10,
+              }}
+            />
+          </View>
+          <View
+            style={[
+              styles.inputWithIcon,
+              { zIndex: 8, ...Platform.select({ android: { padding: 14 } }) },
+            ]}
+          >
+            <Ionicons
+              name="extension-puzzle-outline"
+              style={styles.icon}
+              size={24}
+              color="gray"
+            />
+            <CustomDropdown
+              placeholder="Branch"
+              open={openBranch}
+              value={valueBranch}
+              items={itemsBranch}
+              setOpen={setOpenBranch}
+              setValue={setValueBranch}
+              setItems={setitemsBranch}
+              placeholderStyle={{
+                color: "#fff",
+                fontSize: 14,
+                lineHeight: 25,
+              }}
+              dropDownContainerStyle={styles.dropDownContainer}
+              flatListStyle={[
+                styles.flatListDropDown,
+                {
+                  ...Platform.select({
+                    web: { marginTop: 305 },
+                    android: { marginTop: 280 },
+                  }),
+                },
+              ]}
+              modalStyle={styles.modalDropDown}
+              itemTextStyle={{ color: "#ffffff", fontSize: 14 }}
+              containerStyle={styles.containerButtonDropDown}
+              buttonStyle={styles.buttonDropDown}
+              itemStyle={{
+                padding: 10,
+              }}
+            />
+          </View>
+          <View
+            style={[
+              styles.inputWithIcon,
+              { zIndex: 7, ...Platform.select({ android: { padding: 14 } }) },
+            ]}
+          >
+            <Ionicons
+              name="search-outline"
+              style={styles.icon}
+              size={24}
+              color="gray"
+            />
+            <CustomDropdown
+              placeholder="Focus"
+              open={openFocus}
+              value={valueFocus}
+              items={itemsFocus}
+              setOpen={setOpenFocus}
+              setValue={setValueFocus}
+              setItems={setItemsFocus}
+              placeholderStyle={{
+                color: "#fff",
+                fontSize: 14,
+                lineHeight: 25,
+              }}
+              dropDownContainerStyle={styles.dropDownContainer}
+              flatListStyle={[
+                styles.flatListDropDown,
+                {
+                  ...Platform.select({
+                    web: { marginTop: 422 },
+                    android: { marginTop: 412 },
+                  }),
+                },
+              ]}
+              modalStyle={styles.modalDropDown}
+              itemTextStyle={{ color: "#ffffff", fontSize: 14 }}
+              containerStyle={styles.containerButtonDropDown}
+              buttonStyle={styles.buttonDropDown}
+              itemStyle={{
+                padding: 10,
+              }}
+            />
+          </View>
+          <TouchableOpacity style={styles.button} onPress={handleBoarding}>
+            <Text style={styles.buttonText}>Enviar</Text>
+          </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </GestureHandlerRootView>
   );
 };
 
@@ -472,11 +585,13 @@ const styles = StyleSheet.create({
     width: "90%",
     maxWidth: 400,
     alignSelf: "center",
+    height: "auto",
+    justifyContent: "space-between",
   },
   inputWithIcon: {
+    position: "relative",
     flexDirection: "row",
     alignItems: "center",
-
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 8,
@@ -484,11 +599,66 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: "transparent",
   },
-  input: {
-    flex: 1,
-    outlineStyle: "none",
-    padding: 14,
+
+  button: {
+    backgroundColor: "#007bff",
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    alignItems: "center",
+    marginTop: 20,
+    marginBottom: 10,
+    cursor: "pointer",
+  },
+  buttonText: {
     color: "#ffffff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  dropDownContainer: {
+    backgroundColor: "Transparent",
+    width: Platform.select({
+      android: 240,
+      web: 320,
+    }),
+    elevation: 5,
+    position: "relative",
+  },
+  buttonDropDown: {
+    backgroundColor: "transparent",
+    borderRadius: 8,
+    width: "100%",
+    height: 50,
+    alignItems: "center",
+    flexDirection: "row",
+    padding: 12,
+    justifyContent: "space-between",
+  },
+  containerButtonDropDown: {
+    backgroundColor: "#000",
+    width: "95%",
+    borderRadius: 8,
+    justifyContent: "center",
+    borderColor: "transparent",
+    ...Platform.select({
+      android: { height: 20, paddingVertical: 12 },
+    }),
+    position: "relative",
+  },
+  modalDropDown: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+  },
+  flatListDropDown: {
+    backgroundColor: "#000",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderTopWidth: 0,
+    maxHeight: 200,
+    paddingVertical: 10,
+    borderRadius: 8,
+    right: -20,
   },
 });
 

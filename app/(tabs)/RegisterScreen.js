@@ -1,4 +1,3 @@
-// screens/RegisterScreen.js
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -16,8 +15,10 @@ import { db } from "@/firebaseConfig";
 import { setDoc, doc } from "firebase/firestore";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 const RegisterScreen = () => {
+  const router = useRouter();
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -55,7 +56,7 @@ const RegisterScreen = () => {
         "Account created",
         "You have successfully registered. Please log in."
       );
-      navigation.navigate("LoginScreen");
+      router.replace("/(Screens)/OnBoardingScreen");
     } catch (error) {
       Alert.alert("Error", "Failed to create account. Please try again.");
     }

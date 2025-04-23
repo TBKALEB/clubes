@@ -3,95 +3,110 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Modal,
-  FlatList,
   StyleSheet,
+  FlatList,
 } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 
 const CustomDropdown = ({
-  open,
   value,
   items,
-  setOpen,
   setValue,
-  setItems,
-  placeholder,
-  placeholderStyle,
-  dropDownContainerStyle,
-  containerStyle,
-  buttonStyle,
-  itemStyle,
-  itemTextStyle,
-  modalStyle,
-  flatListStyle,
-  flatListContentStyle,
-  arrowIconStyle,
+  placeholder = "Selecciona una opción",
 }) => {
-  const [modalVisible, setModalVisible] = useState(open || false);
+  const [open, setOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(value || null);
 
   useEffect(() => {
-    setModalVisible(open); // Actualiza la visibilidad del modal cuando 'open' cambia
-  }, [open]);
-
-  useEffect(() => {
-    setSelectedItem(value); // Actualiza el valor seleccionado cuando 'value' cambia
+    setSelectedItem(value);
   }, [value]);
 
-  const toggleModal = () => {
-    setModalVisible(!modalVisible);
-    setOpen(!modalVisible); // Actualiza el estado de apertura en el componente padre
-  };
+  const toggleDropdown = () => setOpen((prev) => !prev);
 
   const handleSelect = (item) => {
     setSelectedItem(item);
-    setValue(item); // Actualiza el valor seleccionado en el componente padre
-    setModalVisible(false);
-    setOpen(false); // Cierra el dropdown al seleccionar un item
+    setValue(item);
+    setOpen(false);
   };
 
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={itemStyle} onPress={() => handleSelect(item)}>
-      <Text style={[itemTextStyle]}>{item.label}</Text>
+    <TouchableOpacity style={styles.item} onPress={() => handleSelect(item)}>
+      <Text style={styles.itemText}>{item.label}</Text>
     </TouchableOpacity>
   );
 
   return (
-    <View style={[containerStyle]}>
-      <TouchableOpacity style={[buttonStyle]} onPress={toggleModal}>
-        <Text style={[placeholderStyle]}>
+    <View style={styles.wrapper}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={toggleDropdown}
+        activeOpacity={0.8}
+      >
+        <Text style={styles.placeholder}>
           {selectedItem ? selectedItem.label : placeholder}
         </Text>
         <Icon
-          name="chevron-down"
+          name={open ? "chevron-up" : "chevron-down"}
           size={20}
           color="#fff"
-          style={[arrowIconStyle]}
         />
       </TouchableOpacity>
 
-      <Modal
-        visible={modalVisible}
-        transparent={true}
-        animationType="fade"
-        onRequestClose={toggleModal}
-      >
-        <TouchableOpacity style={modalStyle} onPress={toggleModal}>
-          <View style={[dropDownContainerStyle]}>
-            <FlatList
-              data={items}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.value}
-              style={flatListStyle}
-              contentContainerStyle={flatListContentStyle}
-              showsVerticalScrollIndicator={false}
-            />
-          </View>
-        </TouchableOpacity>
-      </Modal>
+      {open && (
+        <View style={styles.dropdown}>
+          <FlatList
+            data={items}
+            keyExtractor={(item) => item.value.toString()}
+            renderItem={renderItem}
+            showsVerticalScrollIndicator={true}
+            nestedScrollEnabled={true}
+          />
+        </View>
+      )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  wrapper: {
+    position: "relative",
+    zIndex: 10,
+  },
+  button: {
+    backgroundColor: "#444",
+    padding: 12,
+    borderRadius: 8,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  placeholder: {
+    color: "#fff",
+    fontSize: 16,
+  },
+  dropdown: {
+    position: "absolute",
+    top: "100%",
+    left: 0,
+    right: 0,
+    backgroundColor: "#000",
+    borderRadius: 8,
+    maxHeight: 200,
+    marginTop: 4,
+    borderWidth: 1,
+    borderColor: "#666",
+    elevation: 10, // Android
+    zIndex: 9999, // iOS
+  },
+  item: {
+    padding: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "#333",
+  },
+  itemText: {
+    color: "#fff",
+    fontSize: 16,
+  },
+});
 
 export default CustomDropdown;
