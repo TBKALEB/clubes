@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   FlatList,
+  ScrollView,
 } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 
@@ -40,7 +41,7 @@ const CustomDropdown = ({
       <TouchableOpacity
         style={styles.button}
         onPress={toggleDropdown}
-        activeOpacity={0.8}
+        activeOpacity={0.6}
       >
         <Text style={styles.placeholder}>
           {selectedItem ? selectedItem.label : placeholder}
@@ -53,13 +54,16 @@ const CustomDropdown = ({
       </TouchableOpacity>
 
       {open && (
-        <View style={styles.dropdown}>
+        <View style={styles.dropDownContainer}>
           <FlatList
             data={items}
-            keyExtractor={(item) => item.value.toString()}
             renderItem={renderItem}
-            showsVerticalScrollIndicator={true}
+            keyExtractor={(item) => item.value.toString()}
+            style={styles.dropdownScroll}
+            contentContainerStyle={styles.dropdownContent}
             nestedScrollEnabled={true}
+            keyboardShouldPersistTaps="handled"
+            removeClippedSubviews={false} // Mejora rendimiento en Android
           />
         </View>
       )}
@@ -72,6 +76,13 @@ const styles = StyleSheet.create({
     position: "relative",
     zIndex: 10,
   },
+  dropdownContainer: {
+    position: "absolute",
+    top: "100%",
+    left: 0,
+    right: 0,
+    zIndex: 9999,
+  },
   button: {
     backgroundColor: "#444",
     padding: 12,
@@ -79,12 +90,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    width: "96%",
+    // height: 50,
   },
   placeholder: {
     color: "#fff",
     fontSize: 16,
   },
-  dropdown: {
+  dropDownSc: {
     position: "absolute",
     top: "100%",
     left: 0,
@@ -97,6 +110,7 @@ const styles = StyleSheet.create({
     borderColor: "#666",
     elevation: 10, // Android
     zIndex: 9999, // iOS
+    overflow: "hidden",
   },
   item: {
     padding: 12,
@@ -106,6 +120,10 @@ const styles = StyleSheet.create({
   itemText: {
     color: "#fff",
     fontSize: 16,
+  },
+
+  dropdownContent: {
+    paddingVertical: 8,
   },
 });
 

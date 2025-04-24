@@ -387,37 +387,19 @@ const OnBoardingScreen = () => {
               size={24}
               color="gray"
             />
-            <CustomDropdown
-              open={openEducation}
-              value={valueEducation}
-              items={itemsEducation}
-              setOpen={setOpenEducation}
-              setValue={setValueEducation}
-              setItems={setItemsEducation}
+            <DropDownPicker
               placeholder="Education Level"
-              placeholderStyle={{
-                color: "#fff",
-                fontSize: 14,
-                lineHeight: 25,
-              }}
-              dropDownContainerStyle={[styles.dropDownContainer]}
-              flatListStyle={[
-                styles.flatListDropDown,
-                {
-                  ...Platform.select({
-                    web: { top: -5 },
-                    android: { marginTop: -36 },
-                  }),
-                },
-              ]}
-              modalStyle={styles.modalDropDown}
-              itemTextStyle={{ color: "#ffffff", fontSize: 14 }}
-              containerStyle={styles.containerButtonDropDown}
-              buttonStyle={styles.buttonDropDown}
-              itemStyle={{
-                padding: 10,
-              }}
-              flatListContentStyle={styles.contentFlatList}
+              placeholderStyle={{ color: "#fff" }}
+              open={openEducation}
+              setOpen={setOpenEducation}
+              value={valueEducation}
+              setValue={setValueEducation}
+              items={itemsEducation}
+              setItems={setItemsEducation}
+              arrowIconStyle={{ color: "#fff" }}
+              listMode="FLATLIST"
+              style={styles.picker}
+              dropDownContainerStyle={styles.pickerContainer}
             />
           </View>
           <View
@@ -432,37 +414,6 @@ const OnBoardingScreen = () => {
               size={24}
               color="gray"
             />
-            <CustomDropdown
-              placeholder="Subject"
-              open={openSubject}
-              value={valueSubject}
-              items={itemsSubject}
-              setOpen={setOpenSubject}
-              setValue={setValueSubject}
-              setItems={setItemsSubject}
-              placeholderStyle={{
-                color: "#fff",
-                fontSize: 14,
-                lineHeight: 25,
-              }}
-              dropDownContainerStyle={styles.dropDownContainer}
-              flatListStyle={[
-                styles.flatListDropDown,
-                {
-                  ...Platform.select({
-                    web: { marginTop: 161 },
-                    android: { marginTop: 129 },
-                  }),
-                },
-              ]}
-              modalStyle={styles.modalDropDown}
-              itemTextStyle={{ color: "#ffffff", fontSize: 14 }}
-              containerStyle={styles.containerButtonDropDown}
-              buttonStyle={styles.buttonDropDown}
-              itemStyle={{
-                padding: 10,
-              }}
-            />
           </View>
           <View
             style={[
@@ -476,37 +427,6 @@ const OnBoardingScreen = () => {
               size={24}
               color="gray"
             />
-            <CustomDropdown
-              placeholder="Branch"
-              open={openBranch}
-              value={valueBranch}
-              items={itemsBranch}
-              setOpen={setOpenBranch}
-              setValue={setValueBranch}
-              setItems={setitemsBranch}
-              placeholderStyle={{
-                color: "#fff",
-                fontSize: 14,
-                lineHeight: 25,
-              }}
-              dropDownContainerStyle={styles.dropDownContainer}
-              flatListStyle={[
-                styles.flatListDropDown,
-                {
-                  ...Platform.select({
-                    web: { marginTop: 305 },
-                    android: { marginTop: 280 },
-                  }),
-                },
-              ]}
-              modalStyle={styles.modalDropDown}
-              itemTextStyle={{ color: "#ffffff", fontSize: 14 }}
-              containerStyle={styles.containerButtonDropDown}
-              buttonStyle={styles.buttonDropDown}
-              itemStyle={{
-                padding: 10,
-              }}
-            />
           </View>
           <View
             style={[
@@ -519,37 +439,6 @@ const OnBoardingScreen = () => {
               style={styles.icon}
               size={24}
               color="gray"
-            />
-            <CustomDropdown
-              placeholder="Focus"
-              open={openFocus}
-              value={valueFocus}
-              items={itemsFocus}
-              setOpen={setOpenFocus}
-              setValue={setValueFocus}
-              setItems={setItemsFocus}
-              placeholderStyle={{
-                color: "#fff",
-                fontSize: 14,
-                lineHeight: 25,
-              }}
-              dropDownContainerStyle={styles.dropDownContainer}
-              flatListStyle={[
-                styles.flatListDropDown,
-                {
-                  ...Platform.select({
-                    web: { marginTop: 422 },
-                    android: { marginTop: 412 },
-                  }),
-                },
-              ]}
-              modalStyle={styles.modalDropDown}
-              itemTextStyle={{ color: "#ffffff", fontSize: 14 }}
-              containerStyle={styles.containerButtonDropDown}
-              buttonStyle={styles.buttonDropDown}
-              itemStyle={{
-                padding: 10,
-              }}
             />
           </View>
           <TouchableOpacity style={styles.button} onPress={handleBoarding}>
@@ -615,50 +504,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  dropDownContainer: {
-    backgroundColor: "Transparent",
-    width: Platform.select({
-      android: 240,
-      web: 320,
-    }),
-    elevation: 5,
-    position: "relative",
-  },
-  buttonDropDown: {
+  picker: {
     backgroundColor: "transparent",
-    borderRadius: 8,
-    width: "100%",
-    height: 50,
-    alignItems: "center",
-    flexDirection: "row",
-    padding: 12,
-    justifyContent: "space-between",
-  },
-  containerButtonDropDown: {
-    backgroundColor: "#000",
     width: "95%",
-    borderRadius: 8,
-    justifyContent: "center",
-    borderColor: "transparent",
-    ...Platform.select({
-      android: { height: 20, paddingVertical: 12 },
-    }),
-    position: "relative",
-  },
-  modalDropDown: {
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-  },
-  flatListDropDown: {
-    backgroundColor: "#000",
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderTopWidth: 0,
-    maxHeight: 200,
-    paddingVertical: 10,
-    borderRadius: 8,
-    right: -20,
   },
 });
 
